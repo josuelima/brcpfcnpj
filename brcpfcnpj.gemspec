@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), "lib", "brcpfcnpj", "version")
 
 Gem::Specification.new do |s|
   s.name = "brcpfcnpj"
-  s.summary = "brcpfcnpj é uma das gems que compoem o Brazilian Rails"
+  s.summary = "[EXTENSAO] brcpfcnpj é uma das gems que compoem o Brazilian Rails"
   s.description = %q{brcpfcnpj é uma das gems que compoem o Brazilian Rails}
   s.version = BrCpfCnpj::VERSION::STRING
 
@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency("actionpack", ">= 3.0.0")
   s.add_dependency("activesupport", ">= 3.0.0")
+  s.add_dependency("activerecord", ">= 3.0.0")
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", ">= 2.4.0"
+  s.add_development_dependency "sqlite3"
 end

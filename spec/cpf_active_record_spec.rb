@@ -18,7 +18,7 @@ describe "Using a model attribute as Cpf" do
   end
 
   it "should respond to cpf_valido?" do
-    @person.respond_to?('cpf_valido?').should be_true
+    expect(@person).to respond_to(:cpf_valido?)
   end
 
   it "should be invalid with an invalid cpf number" do
@@ -43,12 +43,12 @@ describe "Using a model attribute as Cpf" do
 
   it "should not save the instance with an invalid cpf" do
     @person.cpf = "sdwewe"
-    @person.save.should be_false
+    @person.save.should be false
   end
 
   it "should have an error in the cpf field when invalid" do
     @person.cpf = "232df"
-    @person.save.should be_false
+    @person.save.should be false
     @person.errors[:cpf].should == ["número inválido"]
   end
 

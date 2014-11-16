@@ -18,7 +18,7 @@ describe "Using a model attribute as Cnpj" do
   end
 
   it "should respond to cnpj_valido?" do
-    @company.respond_to?('cnpj_valido?').should be_true
+    expect(@company).to respond_to(:cnpj_valido?)
   end
 
   it "should be invalid with an invalid cnpj number" do
@@ -33,7 +33,7 @@ describe "Using a model attribute as Cnpj" do
 
   it "should not save the instance with an invalid cnpj" do
     @company.cnpj = "sdwewe"
-    @company.save.should be_false
+    @company.save.should be false
   end
 
   it "should have an error in the cnpj field when invalid" do
