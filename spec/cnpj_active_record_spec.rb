@@ -14,7 +14,8 @@ describe "Using a model attribute as Cnpj" do
 
   it "should format the received number" do
     @company.cnpj = "69103604000160"
-    @company.cnpj.numero.should == "69.103.604/0001-60"
+    @company.cnpj.numero.should == "69103604000160"
+    @company.cnpj.formatado.should == "69.103.604/0001-60"
   end
 
   it "should respond to cnpj_valido?" do
@@ -64,7 +65,8 @@ describe "Using a model attribute as Cnpj" do
 
   it "should be able to receive parameters at initialization" do
     @company = Empresa.new(:cnpj => "69103604000160")
-    @company.cnpj.numero.should == "69.103.604/0001-60"
+    @company.cnpj.numero.should == "69103604000160"
+    @company.cnpj.formatado.should == "69.103.604/0001-60"
   end
 end
 

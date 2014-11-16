@@ -35,12 +35,8 @@ describe Cpf do
   
   it "should return the formated cpf" do
     cpf = Cpf.new("11144477735")
-    cpf.to_s.should == "111.444.777-35"
-  end
-  
-  it "should format the received number at instantiation" do
-    cpf = Cpf.new("11144477735")
-    cpf.numero.should == "111.444.777-35"
+    cpf.to_s.should == "11144477735"
+    cpf.formatado.should == "111.444.777-35"
   end
   
   it "should be equal to another instance with the same number" do

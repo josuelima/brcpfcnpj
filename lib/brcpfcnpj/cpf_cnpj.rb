@@ -3,11 +3,11 @@ module CpfCnpj
   attr_reader :numero
   
   def initialize(numero)
-    @numero = numero      
-    @match = self.instance_of?(Cpf) ? @numero =~ CPF_REGEX : @numero =~ CNPJ_REGEX
+    @numero = numero.gsub(/[\.\/-]/, "")
+    @match = self.instance_of?(Cpf) ? numero =~ CPF_REGEX : numero =~ CNPJ_REGEX
     @numero_puro = $1
     @para_verificacao = $2
-    @numero = (@match ? format_number! : nil)
+    @numero = nil unless @match
   end
   
   def to_s
@@ -24,9 +24,20 @@ module CpfCnpj
   def valido?   
     return false unless @match    
     verifica_numero
-  end  
+  end
+
+  def formatado
+    if self.instance_of? Cpf
+      @numero =~ /(\d{3})\.?(\d{3})\.?(\d{3})-?(\d{2})/
+      @numero = "#{$1}.#{$2}.#{$3}-#{$4}"
+    else
+      @numero =~ /(\d{2})\.?(\d{3})\.?(\d{3})\/?(\d{4})-?(\d{2})/    
+      @numero = "#{$1}.#{$2}.#{$3}/#{$4}-#{$5}"  
+    end    
+  end
   
   private
+
   DIVISOR = 11
   
   CPF_LENGTH = 11
@@ -41,13 +52,12 @@ module CpfCnpj
   
   
   def verifica_numero    
-    limpo = @numero.gsub(/[\.\/-]/, "")
     if self.instance_of? Cpf
-      return false if limpo.length != 11
+      return false if @numero.length != 11
     elsif self.instance_of? Cnpj
-      return false if limpo.length != 14
+      return false if @numero.length != 14
     end     
-    return false if limpo.scan(/\d/).uniq.length == 1
+    return false if @numero.scan(/\d/).uniq.length == 1
     primeiro_verificador = primeiro_digito_verificador
     segundo_verificador = segundo_digito_verificador(primeiro_verificador)
     verif = primeiro_verificador + segundo_verificador
@@ -75,16 +85,5 @@ module CpfCnpj
     soma = multiplica_e_soma(array, @numero_puro + primeiro_verificador)    
     digito_verificador(soma%DIVISOR).to_s
   end
-  
-  def format_number!
-    if self.instance_of? Cpf
-      @numero =~ /(\d{3})\.?(\d{3})\.?(\d{3})-?(\d{2})/
-      @numero = "#{$1}.#{$2}.#{$3}-#{$4}"
-    else
-      @numero =~ /(\d{2})\.?(\d{3})\.?(\d{3})\/?(\d{4})-?(\d{2})/    
-      @numero = "#{$1}.#{$2}.#{$3}/#{$4}-#{$5}"  
-    end    
-  end
-  
 end
 

@@ -14,7 +14,8 @@ describe "Using a model attribute as Cpf" do
 
   it "should format the received number" do
     @person.cpf = "11144477735"
-    @person.cpf.numero.should == "111.444.777-35"
+    @person.cpf.numero.should == "11144477735"
+    @person.cpf.formatado == "111.444.777-35"
   end
 
   it "should respond to cpf_valido?" do
@@ -64,7 +65,8 @@ describe "Using a model attribute as Cpf" do
 
   it "should be able to receive parameters at initialization" do
     @person = Pessoa.new(:cpf => "111.44477735")
-    @person.cpf.numero.should == "111.444.777-35"
+    @person.cpf.numero.should == "11144477735"
+    @person.cpf.formatado.should == "111.444.777-35"
   end
 
   it "should change the current attribute's value" do

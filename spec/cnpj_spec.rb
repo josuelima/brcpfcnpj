@@ -35,16 +35,13 @@ describe Cnpj do
   
   it "should return the formated cnpj" do
     cnpj = Cnpj.new("69103604000160")
-    cnpj.to_s.should == "69.103.604/0001-60"
-  end
-  
-  it "should format the received number at instantiation" do
-    cnpj = Cnpj.new("69103604000160")
-    cnpj.numero.should == "69.103.604/0001-60"
+    cnpj.to_s.should == "69103604000160"
   end
   
   it "should be equal to another instance with the same number" do
-    Cnpj.new("69103604000160").should == Cnpj.new("69.103.604/0001-60")
+    cnpj_1 = Cnpj.new("69103604000160")
+    cnpj_2 = Cnpj.new("69.103.604/0001-60")
+    cnpj_1.should == cnpj_2
   end  
 end 
   
