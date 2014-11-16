@@ -106,17 +106,6 @@ describe "when validating" do
       @p1 = Pessoa.new(:nome => "Beltrano", :cpf => "11144477735")
       @p1.save
     end
-
-    it "should validate uniqueness of cpf" do
-      p2 = Pessoa.new(:nome => "Beltrano", :cpf => "11144477735")
-      p2.should_not be_valid
-      p2.errors[:cpf].should_not be_empty
-    end
-
-    it "should be valid using a new cpf" do
-      p2 = Pessoa.new(:nome => "Fulano", :cpf => "00123456797")
-      p2.should be_valid
-    end
   end
 end
 

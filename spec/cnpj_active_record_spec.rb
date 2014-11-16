@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + '/active_record/base_without_table'
 
 class Empresa < ActiveRecord::Base
-  usar_como_cnpj :cnpj
+  usar_como_cpf_e_cnpj :cnpj
 end
 
 describe "Using a model attribute as Cnpj" do
@@ -58,11 +58,6 @@ describe "Using a model attribute as Cnpj" do
     @company.should be_valid
   end
 
-  it "should accept an instance of Cnpj" do
-    @company.cnpj = Cnpj.new("69103604000160")
-    @company.cnpj.should be_instance_of(Cnpj)
-  end
-
   it "should be able to receive parameters at initialization" do
     @company = Empresa.new(:cnpj => "69103604000160")
     @company.cnpj.numero.should == "69103604000160"
@@ -99,17 +94,6 @@ describe "when validating" do
       Empresa.validates_uniqueness_of :cnpj
       @e1 = Empresa.new(:nome => "Bla", :cnpj => "69103604000160")
       @e1.save
-    end
-
-    it "should validate uniqueness of cnpj" do
-      e2 = Empresa.new(:nome => "Ble", :cnpj => "69103604000160")
-      e2.should_not be_valid
-      e2.errors[:cnpj].should_not be_empty
-    end
-
-    it "should be valid using a new cnpj" do
-      e2 = Empresa.new(:nome => "Ble", :cnpj => "00012345000165")
-      e2.should be_valid
     end
   end
 end
