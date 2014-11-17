@@ -1,3 +1,3 @@
-class CpfECnpj < String
+class CpfECnpj < Numeric
   include CpfCnpj
 end
