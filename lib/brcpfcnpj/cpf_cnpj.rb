@@ -14,9 +14,6 @@ module CpfCnpj
     @numero || ""
   end
 
-  alias_method :to_str, :to_s
-
-  
   def ==(outro_doc)
     self.numero == outro_doc.numero
   end
