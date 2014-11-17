@@ -4,7 +4,8 @@ module CpfCnpj
   
   def initialize(numero)
     @numero = numero.gsub(/[\.\/-]/, "")
-    @match = self.instance_of?(Cpf) ? numero =~ CPF_REGEX : numero =~ CNPJ_REGEX
+    @type   = @numero.length == 11 ? :cpf : :cnpj
+    @match  = @type == :cpf ? numero =~ CPF_REGEX : numero =~ CNPJ_REGEX
     @numero_puro = $1
     @para_verificacao = $2
     @numero = nil unless @match
@@ -27,7 +28,7 @@ module CpfCnpj
   end
 
   def formatado
-    if self.instance_of? Cpf
+    if @type == :cpf
       @numero =~ /(\d{3})\.?(\d{3})\.?(\d{3})-?(\d{2})/
       @numero = "#{$1}.#{$2}.#{$3}-#{$4}"
     else
@@ -52,9 +53,9 @@ module CpfCnpj
   
   
   def verifica_numero    
-    if self.instance_of? Cpf
+    if @type == :cpf
       return false if @numero.length != 11
-    elsif self.instance_of? Cnpj
+    elsif @type == :cnpj
       return false if @numero.length != 14
     end     
     return false if @numero.scan(/\d/).uniq.length == 1
@@ -75,13 +76,13 @@ module CpfCnpj
   end
   
   def primeiro_digito_verificador
-    array = self.instance_of?(Cpf) ? CPF_ALGS_1 : CNPJ_ALGS_1    
+    array = @type == :cpf ? CPF_ALGS_1 : CNPJ_ALGS_1    
     soma = multiplica_e_soma(array, @numero_puro)    
     digito_verificador(soma%DIVISOR).to_s
   end
 
   def segundo_digito_verificador(primeiro_verificador) 
-    array = self.instance_of?(Cpf) ? CPF_ALGS_2 : CNPJ_ALGS_2   
+    array = @type == :cpf ? CPF_ALGS_2 : CNPJ_ALGS_2   
     soma = multiplica_e_soma(array, @numero_puro + primeiro_verificador)    
     digito_verificador(soma%DIVISOR).to_s
   end
